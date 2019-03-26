@@ -653,12 +653,14 @@ def create_train_and_eval_specs(train_input_fn,
             name=eval_spec_name,
             input_fn=eval_input_fn,
             steps=None,
-            exporters=exporter))
+            exporters=exporter,
+            start_delay_secs=0,
+            throttle_secs=30))
 
   if eval_on_train_data:
     eval_specs.append(
         tf.estimator.EvalSpec(
-            name='eval_on_train', input_fn=eval_on_train_input_fn, steps=None))
+            name='eval_on_train', input_fn=eval_on_train_input_fn, steps=None, start_delay_secs=0, throttle_secs=30))
 
   return train_spec, eval_specs
 
