@@ -341,6 +341,10 @@ class CocoDetectionEvaluator(object_detection_evaluation.DetectionEvaluator):
       for category_dict in self._categories:
         metric_names.append('DetectionBoxes_PerformanceByCategory/mAP/' +
                             category_dict['name'])
+        metric_names.append('DetectionBoxes_PerformanceByCategory_IOU/mAP@0.50IOU/' +
+                            category_dict['name'])
+        metric_names.append('DetectionBoxes_PerformanceByCategory_IOU/mAP@0.75IOU/' +
+                            category_dict['name'])
 
     def first_value_func():
       self._metrics = self.evaluate()

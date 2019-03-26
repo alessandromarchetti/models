@@ -237,6 +237,11 @@ class COCOEvalWrapper(cocoeval.COCOeval):
     self.accumulate()
     self.summarize()
 
+    # add for metrics per catergory from here
+    if include_metrics_per_category is True:
+        self.summarize_per_category()
+    # add for metrics per category end here
+
     summary_metrics = OrderedDict([
         ('Precision/mAP', self.stats[0]),
         ('Precision/mAP@.50IOU', self.stats[1]),
@@ -263,6 +268,10 @@ class COCOEvalWrapper(cocoeval.COCOeval):
       # Kept for backward compatilbility
       per_category_ap['PerformanceByCategory/mAP/{}'.format(
           category)] = self.category_stats[0][category_index]
+      per_category_ap['PerformanceByCategory_IOU/mAP@0.50IOU/{}'.format(
+            category)] = self.category_stats[1][category_index]
+      per_category_ap['PerformanceByCategory_IOU/mAP@0.75IOU/{}'.format(
+            category)] = self.category_stats[2][category_index]
       if all_metrics_per_category:
         per_category_ap['Precision mAP ByCategory/{}'.format(
             category)] = self.category_stats[0][category_index]
@@ -288,6 +297,8 @@ class COCOEvalWrapper(cocoeval.COCOeval):
             category)] = self.category_stats[10][category_index]
         per_category_ap['Recall AR@100 (large) ByCategory/{}'.format(
             category)] = self.category_stats[11][category_index]
+
+    return summary_metrics, per_category_ap
 
     return summary_metrics, per_category_ap
 
